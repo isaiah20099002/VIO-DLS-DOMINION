@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vio DLS Dominion | Tournament</title>
+<style>
+:root{--bg:#07130f;--panel:#10231b;--panel2:#163126;--green:#b7f34a;--muted:#a9b9ae;--line:#294638;--white:#f5f8f4}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#183d2b 0,#07130f 45%);color:var(--white);font-family:Arial,sans-serif}
+header{padding:28px 6%;background:#081710dd;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:13px}.crest{width:48px;height:48px;border:2px solid var(--green);border-radius:14px;display:grid;place-items:center;color:var(--green);font-weight:900;font-size:20px}
+.brand h1{font-size:20px;margin:0}.brand p{margin:5px 0 0;color:var(--muted);font-size:12px;letter-spacing:2px}
+nav{display:flex;gap:8px;flex-wrap:wrap}nav button,.btn{background:var(--panel2);color:var(--white);border:1px solid var(--line);padding:10px 14px;border-radius:9px;cursor:pointer;font-weight:700}nav button.active,nav button:hover,.btn.primary{background:var(--green);color:#10200f;border-color:var(--green)}
+main{max-width:1120px;margin:30px auto;padding:0 18px}.hero{padding:30px;border-radius:18px;background:linear-gradient(120deg,#1b422d,#102319);border:1px solid #31543c;margin-bottom:22px}
+.eyebrow{color:var(--green);font-weight:bold;letter-spacing:2px;font-size:12px}.hero h2{font-size:clamp(27px,5vw,44px);margin:10px 0}.hero p{color:#d0ddd2;max-width:650px;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.stat{background:#07181088;padding:15px;border-radius:12px}.stat strong{display:block;font-size:25px;color:var(--green)}.stat span{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:18px;overflow:auto}.panel h3{margin:0 0 15px;font-size:18px}.muted{color:var(--muted)}table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--green);font-size:11px;text-transform:uppercase;letter-spacing:1px}td.num{text-align:center}.pill{display:inline-block;padding:5px 8px;border-radius:20px;background:#244331;color:var(--green);font-size:11px}
+.match{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.match:last-child{border:0}.teams{font-weight:bold}.score{font-size:18px;color:var(--green);font-weight:900;white-space:nowrap}.date{font-size:11px;color:var(--muted);margin-top:5px}
+input,select{background:#071810;color:white;border:1px solid var(--line);border-radius:8px;padding:11px;width:100%;margin:5px 0 12px}label{font-size:12px;color:var(--muted)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actions{display:flex;gap:8px;flex-wrap:wrap}.hidden{display:none}footer{text-align:center;padding:30px;color:var(--muted);font-size:12px}
+@media(max-width:700px){header{padding:20px 5%}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}.hero{padding:22px}.formgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="crest">VD</div><div><h1>VIO DLS DOMINION</h1><p>FOOTBALL • COMPETE • CONQUER</p></div></div>
+ <nav>
+  <button class="active" data-tab="home">Home</button><button data-tab="fixtures">Fixtures</button><button data-tab="results">Results</button><button data-tab="standings">Standings</button><button data-tab="players">Players</button><button data-tab="admin">Admin</button>
+ </nav>
+</header>
+<main>
+<section id="home" class="tab">
+ <div class="hero"><div class="eyebrow">OFFICIAL TOURNAMENT HUB</div><h2>THE DLS BATTLE STARTS HERE.</h2><p>Follow every fixture, check match results and track the race for the top of the table. Welcome to the Vio DLS Dominion tournament.</p>
+ <div class="stats"><div class="stat"><strong id="statPlayers">0</strong><span>PLAYERS</span></div><div class="stat"><strong id="statMatches">0</strong><span>MATCHES PLAYED</span></div><div class="stat"><strong id="statLeader">—</strong><span>TABLE LEADER</span></div></div></div>
+ <div class="grid"><div class="panel"><h3>Next fixtures</h3><div id="homeFixtures"></div></div><div class="panel"><h3>Latest results</h3><div id="homeResults"></div></div></div>
+</section>
+<section id="fixtures" class="tab hidden"><div class="panel"><h3>Upcoming fixtures</h3><div id="fixtureList"></div></div></section>
+<section id="results" class="tab hidden"><div class="panel"><h3>Match results</h3><div id="resultList"></div></div></section>
+<section id="standings" class="tab hidden"><div class="panel"><h3>League table</h3><div id="tableWrap"></div><p class="muted">3 points for a win • 1 point for a draw • 0 points for a loss</p></div></section>
+<section id="players" class="tab hidden"><div class="panel"><h3>Tournament participants</h3><div id="playerList"></div></div></section>
+<section id="admin" class="tab hidden">
+ <div class="panel"><h3>Admin control centre</h3><p class="muted">Add participants and fixtures, then enter scores to update the table automatically.</p>
+ <h3>Add participant</h3><div class="formgrid"><div><label>Player name</label><input id="playerName" placeholder="Enter player name"></div><div style="align-self:end"><button class="btn primary" onclick="addPlayer()">Add player</button></div></div>
+ <hr style="border-color:var(--line);margin:20px 0">
+ <h3>Add fixture</h3><div class="formgrid"><div><label>Home player</label><select id="homePlayer"></select></div><div><label>Away player</label><select id="awayPlayer"></select></div><div><label>Match date / time</label><input id="matchDate" type="datetime-local"></div><div style="align-self:end"><button class="btn primary" onclick="addMatch()">Add fixture</button></div></div>
+ <hr style="border-color:var(--line);margin:20px 0">
+ <h3>Enter or update a result</h3><div class="formgrid"><div><label>Select fixture</label><select id="scoreMatch"></select></div><div></div><div><label>Home score</label><input id="homeScore" type="number" min="0" placeholder="0"></div><div><label>Away score</label><input id="awayScore" type="number" min="0" placeholder="0"></div></div><button class="btn primary" onclick="saveScore()">Save result</button>
+ <p class="muted" style="font-size:12px;margin-top:18px">Demo note: changes are saved in this browser on this device. A shared live website needs an online database and administrator login.</p>
+ </div>
+</section>
+</main>
+<footer>VIO DLS DOMINION • TOURNAMENT CENTRAL</footer>
+<script>
+const initial={players:["Player One","Player Two","Player Three","Player Four"],matches:[
+{id:1,home:"Player One",away:"Player Two",date:"2026-11-10T16:00",hs:null,as:null},
+{id:2,home:"Player Three",away:"Player Four",date:"2026-11-10T17:00",hs:null,as:null},
+{id:3,home:"Player One",away:"Player Three",date:"2026-11-11T16:00",hs:2,as:1}
+]};
+let data;try{data=JSON.parse(localStorage.getItem("vioDlsTournament"))||initial}catch(e){data=initial}
+function save(){localStorage.setItem("vioDlsTournament",JSON.stringify(data));render()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function dateText(d){if(!d)return "Date to be announced";let x=new Date(d);return isNaN(x)?"Date to be announced":x.toLocaleString([], {dateStyle:"medium",timeStyle:"short"})}
+function standings(){let rows=data.players.map(name=>({name,p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}));data.matches.filter(m=>m.hs!==null&&m.as!==null).forEach(m=>{let h=rows.find(x=>x.name===m.home),a=rows.find(x=>x.name===m.away);if(!h||!a)return;h.p++;a.p++;h.gf+=m.hs;h.ga+=m.as;a.gf+=m.as;a.ga+=m.hs;if(m.hs>m.as){h.w++;h.pts+=3;a.l++}else if(m.hs<m.as){a.w++;a.pts+=3;h.l++}else{h.d++;a.d++;h.pts++;a.pts++}});return rows.map(x=>({...x,gd:x.gf-x.ga})).sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf||a.name.localeCompare(b.name))}
+function matchHTML(m){return `<div class="match"><div><div class="teams">${esc(m.home)} <span class="muted">vs</span> ${esc(m.away)}</div><div class="date">${dateText(m.date)}</div></div><div class="score">${m.hs===null?"VS":m.hs+" - "+m.as}</div></div>`}
+function render(){let played=data.matches.filter(m=>m.hs!==null&&m.as!==null),upcoming=data.matches.filter(m=>m.hs===null||m.as===null);document.getElementById("statPlayers").textContent=data.players.length;document.getElementById("statMatches").textContent=played.length;document.getElementById("statLeader").textContent=standings()[0]?.pts?standings()[0].name:"—";
+document.getElementById("homeFixtures").innerHTML=upcoming.slice(0,3).map(matchHTML).join("")||'<p class="muted">No upcoming fixtures yet.</p>';
+document.getElementById("homeResults").innerHTML=played.slice(-3).reverse().map(matchHTML).join("")||'<p class="muted">No results entered yet.</p>';
+document.getElementById("fixtureList").innerHTML=upcoming.map(matchHTML).join("")||'<p class="muted">All scheduled fixtures have results.</p>';
+document.getElementById("resultList").innerHTML=played.slice().reverse().map(matchHTML).join("")||'<p class="muted">No results entered yet.</p>';
+let rows=standings();document.getElementById("tableWrap").innerHTML=`<table><thead><tr><th>#</th><th>Player</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${i+1}</td><td><b>${esc(r.name)}</b></td><td class="num">${r.p}</td><td class="num">${r.w}</td><td class="num">${r.d}</td><td class="num">${r.l}</td><td class="num">${r.gf}</td><td class="num">${r.ga}</td><td class="num">${r.gd}</td><td class="num"><b>${r.pts}</b></td></tr>`).join("")}</tbody></table>`;
+document.getElementById("playerList").innerHTML=data.players.length?`<ol>${data.players.map(p=>`<li style="padding:8px">${esc(p)}</li>`).join("")}</ol>`:'<p class="muted">No participants added yet.</p>';
+let opts=data.players.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join("");document.getElementById("homePlayer").innerHTML=opts;document.getElementById("awayPlayer").innerHTML=opts;
+document.getElementById("scoreMatch").innerHTML=data.matches.map(m=>`<option value="${m.id}">${esc(m.home)} vs ${esc(m.away)}</option>`).join("")||'<option value="">No fixtures available</option>';
+}
+function addPlayer(){let n=document.getElementById("playerName").value.trim();if(!n)return alert("Enter a player name.");if(data.players.some(p=>p.toLowerCase()===n.toLowerCase()))return alert("That player is already registered.");data.players.push(n);document.getElementById("playerName").value="";save()}
+function addMatch(){let h=document.getElementById("homePlayer").value,a=document.getElementById("awayPlayer").value,d=document.getElementById("matchDate").value;if(!h||!a||h===a)return alert("Choose two different players.");data.matches.push({id:Date.now(),home:h,away:a,date:d,hs:null,as:null});save()}
+function saveScore(){let id=Number(document.getElementById("scoreMatch").value),m=data.matches.find(x=>x.id===id),hs=document.getElementById("homeScore").value,as=document.getElementById("awayScore").value;if(!m||hs===""||as===""||Number(hs)<0||Number(as)<0)return alert("Select a fixture and enter both scores.");m.hs=Number(hs);m.as=Number(as);document.getElementById("homeScore").value="";document.getElementById("awayScore").value="";save()}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".tab").forEach(x=>x.classList.add("hidden"));b.classList.add("active");document.getElementById(b.dataset.tab).classList.remove("hidden")}));
+render();
+</script>
+</body></html>
