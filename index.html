@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DLS Tournament fixtures, results and standings">
+  <title>DLS Tournament Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <div class="brand"><span class="brand-mark">DLS</span><span>TOURNAMENT HUB</span></div>
+      <a href="#admin" class="nav-link">Manage tournament</a>
+    </nav>
+    <div class="hero-content">
+      <p class="eyebrow">MATCH CENTRE</p>
+      <h1 id="tournamentTitle">DLS Tournament</h1>
+      <p>Fixtures · Live updates · Results · League table</p>
+      <div class="hero-stats">
+        <div><strong id="matchCount">0</strong><span>Matches played</span></div>
+        <div><strong id="teamCount">0</strong><span>Teams</span></div>
+        <div><strong id="upcomingCount">0</strong><span>Upcoming fixtures</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE COMPETITION</p><h2>Standings</h2></div>
+        <span class="subtle">Updated as results are entered</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr></thead>
+          <tbody id="standingsBody"><tr><td colspan="10" class="empty">Add teams and enter results to build the table.</td></tr></tbody>
+        </table>
+      </div>
+      <p class="table-note">Points: win = 3, draw = 1, loss = 0. Teams are ranked by points, goal difference, then goals scored.</p>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <div><p class="eyebrow">MATCH CENTRE</p><h2>Fixtures & results</h2></div>
+        <div class="filters">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="upcoming">Upcoming</button>
+          <button class="filter" data-filter="played">Played</button>
+        </div>
+      </div>
+      <div id="matchesList" class="matches-grid"><p class="empty">No fixtures have been added yet.</p></div>
+    </section>
+
+    <section class="section admin" id="admin">
+      <div class="section-heading">
+        <div><p class="eyebrow">ADMIN AREA</p><h2>Manage tournament</h2></div>
+        <span class="admin-hint">Changes are saved in this browser</span>
+      </div>
+      <div class="admin-grid">
+        <form id="settingsForm" class="panel">
+          <h3>Tournament name</h3>
+          <label for="nameInput">Competition title</label>
+          <input id="nameInput" maxlength="60" placeholder="e.g. Vio DLS Dominion Cup">
+          <button class="primary" type="submit">Save title</button>
+        </form>
+        <form id="teamForm" class="panel">
+          <h3>Add a team / player</h3>
+          <label for="teamInput">Team or player name</label>
+          <input id="teamInput" maxlength="35" placeholder="Enter team name" required>
+          <button class="primary" type="submit">Add team</button>
+        </form>
+        <form id="fixtureForm" class="panel">
+          <h3>Create a fixture</h3>
+          <label for="homeTeam">Home team</label><select id="homeTeam" required></select>
+          <label for="awayTeam">Away team</label><select id="awayTeam" required></select>
+          <label for="matchDate">Date and time (optional)</label><input id="matchDate" type="datetime-local">
+          <button class="primary" type="submit">Add fixture</button>
+        </form>
+        <form id="resultForm" class="panel">
+          <h3>Enter a match result</h3>
+          <label for="matchSelect">Fixture</label><select id="matchSelect" required></select>
+          <div class="score-inputs">
+            <div><label for="homeScore">Home goals</label><input id="homeScore" type="number" min="0" max="99" required></div>
+            <div><label for="awayScore">Away goals</label><input id="awayScore" type="number" min="0" max="99" required></div>
+          </div>
+          <button class="primary" type="submit">Save result</button>
+        </form>
+      </div>
+      <div class="admin-actions">
+        <button id="exportBtn" class="secondary">Export tournament data</button>
+        <button id="resetBtn" class="danger">Reset all data</button>
+        <input id="importFile" type="file" accept="application/json" hidden>
+        <button id="importBtn" class="secondary">Import data</button>
+      </div>
+      <p class="warning"><strong>Important:</strong> This starter version saves data in the browser/device being used. To let everyone see the same live updates from different phones, the website will need an online database or admin system.</p>
+    </section>
+  </main>
+  <footer><span>DLS TOURNAMENT HUB</span><span>Play fair. Compete hard.</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
